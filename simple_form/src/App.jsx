@@ -1,34 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main>
+        <RegisterForm/>
+      </main>
+      <ConfirmDialog/>
     </>
+  )
+}
+
+function RegisterForm(){
+  return (
+    <>
+      <h1>Please, register</h1>
+
+      <form onSubmit={() => console.log('done')}>
+        <AppInput
+          name="email"
+          label="label"
+          type="emai"
+          onChange={console.log}
+          required={true}
+        />
+
+        <AppInput
+          name="pwd"
+          label="Password"
+          type="email"
+          onChange={console.log}
+          required={true}
+        />
+
+        <button>Submit</button>
+      </form>
+    </>
+  )
+}
+
+function ConfirmDialog({title, children, confirm, cancel, open}) {
+  return (
+    <dialog open={open}>
+      <div>{title}</div>
+      <div>{children}</div>
+      <div>
+        <button type="button" onClick={confirm}>
+          Confirm
+        </button>
+        <button type="button" onClick={cancel}>
+          Cancel
+        </button>
+      </div>
+    </dialog>
+  )
+}
+
+function AppInput({label, name, ...rest}) {
+  return (
+    <div>
+      <label htmlFor={name}>{label}</label>
+      <input id={name} {...rest} />
+    </div>
   )
 }
 
