@@ -28,7 +28,7 @@ function RegisterForm(){
         <AppInput
           name="pwd"
           label="Password"
-          type="email"
+          type="password"
           onChange={console.log}
           required={true}
         />
