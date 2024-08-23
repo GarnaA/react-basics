@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import React from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+//creating class components
+class Greeting extends React.Component {
+  //props in constructor
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: props.initialName
+    }
+  }
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  clickHandler = () => {
+    this.setState({
+      name: "despicable me"
+    })
+    console.log(this.state);
+    if(this.state.name === "despicable me") {
+      this.props.onHide();
+    }
+  }
+
+  render() {
+    const { initialName } = this.props;
+    return (
+      <h1 className="greeting">
+        Hello <i className="emphasize" onClick={this.clickHandler}>
+          {this.state.name}</i>, Welcome!
+      </h1>
+    );
+  }
 }
 
-export default App
+class App extends React.Component {
+  /*constructor(){
+    super()
+    this.state = {
+      show: true
+    }
+  }*/
+  
+  state = {
+    show: true
+  }
+  render() {
+    return <main>
+      <button onClick={() => {
+        this.setState((prev) => ({show: !prev.show}));
+      }}>toggle visibility</button>
+      {this.state.show ? <Greeting initialName="Everyone" onHide={() => {
+        this.setState({
+          show: false
+        })
+      }}></Greeting> : null}
+    </main>
+  }
+}
+
+export default App;
