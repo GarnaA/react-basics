@@ -19,7 +19,7 @@ function RegisterForm(){
       <form onSubmit={() => console.log('done')}>
         <AppInput
           name="email"
-          label="label"
+          label="Email"
           type="emai"
           onChange={console.log}
           required={true}
