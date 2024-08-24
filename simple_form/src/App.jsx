@@ -1,27 +1,88 @@
+import { useState } from 'react'
 import './App.css'
 
 function App() {
+  const [user, setUser] = useState({});
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [isComfirmed, setConfirmed] = useState(false);
+
+  const confirmUserData = (data) => {
+    setUser(data);
+    setConfirmationOpen(true);
+  };
+
+  const closeDialog = () => setConfirmationOpen(false);
+
+  const confirm = () => {
+    closeDialog();
+    setConfirmed(true);
+  };
   return (
     <>
       <main>
-        <RegisterForm/>
+        {isComfirmed ? (
+          `Congratulation user ${user.email}` 
+        ) : ( 
+          <RegisterForm onSubmit={confirmUserData}/>
+        )}
       </main>
-      <ConfirmDialog/>
+      <ConfirmDialog 
+        title="Please confirm registration" 
+        cancel={closeDialog} 
+        open={confirmationOpen}
+        confirm={confirm}
+      >
+        <p>Please confirm your email: {user.email}</p>
+      </ConfirmDialog>
     </>
   )
 }
 
-function RegisterForm(){
+function RegisterForm({onSubmit}){
+  const [user, setUserData] = useState({email: '', password: ''});
+
+  const setUserEmail = (e) => {
+    const email = e.target.value;
+    setUserData({...user, email});
+    //setUserData({
+      //email: e.target.value,
+      //password: user.password,
+    //})
+  };
+  const setUserPassword = (e) => {
+    const password = e.target.value;
+    setUserData({...user, password});
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const { email, password } = user;
+
+    if(!email.includes('@')) {
+      return;
+    }
+
+    if (!password.trim()){
+      return;
+    }
+
+    console.log('submitted');
+
+    onSubmit(user);
+  }
   return (
     <>
       <h1>Please, register</h1>
 
-      <form onSubmit={() => console.log('done')}>
+      <form onSubmit={handleFormSubmit}>
         <AppInput
           name="email"
           label="Email"
           type="emai"
-          onChange={console.log}
+          onChange={setUserEmail}
+          value={user.email}
           required={true}
         />
 
@@ -29,9 +90,12 @@ function RegisterForm(){
           name="pwd"
           label="Password"
           type="password"
-          onChange={console.log}
+          onChange={setUserPassword}
+          value={user.password}
           required={true}
         />
+
+        {JSON.stringify(user)}
 
         <button>Submit</button>
       </form>
