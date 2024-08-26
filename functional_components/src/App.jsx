@@ -24,14 +24,26 @@ class App1 extends Component {
 
 function App(){
   const [data, setState] = useState(false);
-  const [confirmation] = useState({ confirmed: true });
-  const toggle = () => setState(!data);
+  /*const [confirmation, setState] = useState({ isConfirmed: false});
+    const toggle = () => {
+      confirmation.isConfirmed = true;
+      setState({ isConfirmed: true });
+      console.log(confirmation.isConfirmed);
+    };
+    const [confirmation] = useState({ confirmed: true });
+    const toggle = () => setState(!data);*/
+    //state is async
+  const toggle = () => {
+    const newData = !data;
+    setState(newData);
+    console.log(newData);
+  };
 
   return (
     <main>
       <h1>Class component with State</h1>
       <p>{ data === true ? 'True' : 'False'}</p>
-      <p>{ confirmation.confirmed ? 'Confirmed' : 'Not confirmed' }</p>
+      {/*<p>{ confirmation.isConfirmed === true ? 'True' : 'False'}</p>*/}
       <button onClick={toggle}> Toggle </button>
     </main>
   );
