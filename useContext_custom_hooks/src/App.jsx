@@ -1,6 +1,18 @@
+import { useContext } from 'react';
 import { useState } from 'react';
+import { createContext } from 'react';
 import { useEffect } from 'react';
 import './App.css';
+
+const emptyUser = {
+  userName: '',
+  age: 0,
+  email: '',
+  isConfirmed: false,
+  confirmUserAccount: function () {},
+};
+
+const UserContext = createContext(emptyUser);
 
 const userData = {
   userName: 'Vitalii',
@@ -15,10 +27,13 @@ export default function App() {
   const confirmUserAccount = () => {
     setUser({ ...user, isConfirmed: true });
   };
+
   return (
     <div className="component-1 component">
       {user ? (
-        <Main user={ user } confirmUserAccount={ confirmUserAccount } />
+        <UserContext.Provider value={{ ...user, confirmUserAccount }}>
+          <Main confirmUserAccount={ confirmUserAccount } />
+        </UserContext.Provider>
       ) : (
         'loading'
       )}
@@ -26,30 +41,31 @@ export default function App() {
   );
 }
 
-function Main({ user, confirmUserAccount }) {
+function Main() {
   return (
     <main className="component-2 component">
-      <UserCard confirmUserAccount={ confirmUserAccount } user={ user } />
+      <UserCard />
     </main>
   );
 }
 
-function UserCard({ user, confirmUserAccount }) {
-  const { userName, isConfirmed } = user;
+function UserCard() {
+  const { userName, isConfirmed } = useContext(UserContext);
+
   return (
     <div className="component-3 component">
       <h1>
         Hello, { userName } { isConfirmed ? '(Verified)' : '(Unconfirmed)'}
       </h1>
-      <UserInfo user={ user } confirmUserAccount={ confirmUserAccount} />
+      <UserInfo />
     </div>
   );
 }
 
-function UserInfo({
-  user: { age, email, userName, isConfirmed },
-  confirmUserAccount,
-}) {
+function UserInfo() {
+  const { userName, age, email, isConfirmed, confirmUserAccount } = 
+    useContext(UserContext);
+
   return (
     <div className="component-4 component">
       <p>Name: { userName }</p>
