@@ -1,7 +1,8 @@
 import React from "react";
+import { useState } from "react";
 import { Component } from "react";
 
-class App extends Component {
+class App1 extends Component {
   //field to store reactive data
   state = { data: false };
   
@@ -19,6 +20,21 @@ class App extends Component {
       </main>
     );
   }
+}
+
+function App(){
+  const [data, setState] = useState(false);
+  const [confirmation] = useState({ confirmed: true });
+  const toggle = () => setState(!data);
+
+  return (
+    <main>
+      <h1>Class component with State</h1>
+      <p>{ data === true ? 'True' : 'False'}</p>
+      <p>{ confirmation.confirmed ? 'Confirmed' : 'Not confirmed' }</p>
+      <button onClick={toggle}> Toggle </button>
+    </main>
+  );
 }
 
 export default App;
