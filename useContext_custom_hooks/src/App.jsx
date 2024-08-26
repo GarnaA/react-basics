@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const userData = {
+  userName: 'Vitalii',
+  age: 100,
+  email: 'my-email@gmail.com',
+  isConfirmed: false,
+};
 
+export default function App() {
+  const [user, setUser] = useState(null);
+  useEffect(() => setUser(userData), []);
+  const confirmUserAccount = () => {
+    setUser({ ...user, isConfirmed: true });
+  };
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="component-1 component">
+      {user ? (
+        <Main user={ user } confirmUserAccount={ confirmUserAccount } />
+      ) : (
+        'loading'
+      )}
+    </div>
+  );
 }
 
-export default App
+function Main({ user, confirmUserAccount }) {
+  return (
+    <main className="component-2 component">
+      <UserCard confirmUserAccount={ confirmUserAccount } user={ user } />
+    </main>
+  );
+}
+
+function UserCard({ user, confirmUserAccount }) {
+  const { userName, isConfirmed } = user;
+  return (
+    <div className="component-3 component">
+      <h1>
+        Hello, { userName } { isConfirmed ? '(Verified)' : '(Unconfirmed)'}
+      </h1>
+      <UserInfo user={ user } confirmUserAccount={ confirmUserAccount} />
+    </div>
+  );
+}
+
+function UserInfo({
+  user: { age, email, userName, isConfirmed },
+  confirmUserAccount,
+}) {
+  return (
+    <div className="component-4 component">
+      <p>Name: { userName }</p>
+      <p>Age: { age }</p>
+      <p>Email: { email }</p>
+      { isConfirmed ? (
+        'Account Confirmed'
+      ) : (
+        <button onClick={confirmUserAccount} type="button">
+          Please confirm the account
+        </button>
+      )}
+    </div>
+  );
+}
