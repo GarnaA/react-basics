@@ -1,0 +1,28 @@
+.root {
+  margin-bottom: 1rem;
+}
+
+.input {
+  padding: 0.5em 0.5em 0.5em 0.25em;
+  font-size: 1.5em;
+  border: 1px solid #eee;
+}
+
+.input:focus {
+  outline: 2px solid goldenrod;
+}
+
+.root {
+  margin-bottom: 2rem;
+}
+
+.select {
+  padding: 0.5em 0.5em 0.5em 0.25em;
+  font-size: 1.5em;
+  border: 1px solid #eee;
+  width: 100%;
+}
+
+.select:focus {
+  outline: 2px solid goldenrod;
+}
