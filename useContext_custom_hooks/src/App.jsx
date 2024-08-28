@@ -1,24 +1,16 @@
-import { useContext } from 'react';
+//import { useContext } from 'react';
 import { useState } from 'react';
-import { createContext } from 'react';
+//import { createContext } from 'react';
 import { useEffect } from 'react';
+import { UserContext, useUserData } from './user-context';
 import './App.css';
-
-const emptyUser = {
-  userName: '',
-  age: 0,
-  email: '',
-  isConfirmed: false,
-  confirmUserAccount: function () {},
-};
-
-const UserContext = createContext(emptyUser);
 
 const userData = {
   userName: 'Vitalii',
-  age: 100,
-  email: 'my-email@gmail.com',
+  age: 0,
+  email: 'email@gmail.com',
   isConfirmed: false,
+  //confirmUserAccount: function () {},
 };
 
 export default function App() {
@@ -50,7 +42,7 @@ function Main() {
 }
 
 function UserCard() {
-  const { userName, isConfirmed } = useContext(UserContext);
+  const { userName, isConfirmed } = useUserData();
 
   return (
     <div className="component-3 component">
@@ -64,7 +56,7 @@ function UserCard() {
 
 function UserInfo() {
   const { userName, age, email, isConfirmed, confirmUserAccount } = 
-    useContext(UserContext);
+    useUserData();
 
   return (
     <div className="component-4 component">
